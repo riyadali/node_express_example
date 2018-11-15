@@ -4,13 +4,18 @@ var mongoose = require('mongoose');
 // lockfile prevented me from upgrading mongoose. COuld do this at home at some point (refer to 
 // https://medium.com/@drdmason/how-i-resolve-conflicts-in-yarn-lock-7083331b5969
 // For now I'm using a workaround recommended here https://github.com/Automattic/mongoose/issues/5924
-mongoose.plugin(schema => { schema.options.usePushEach = true });
+// mongoose.plugin(schema => { schema.options.usePushEach = true }); --- didn't work
 
 var CommentSchema = new mongoose.Schema({
   body: String,
   author: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   article: { type: mongoose.Schema.Types.ObjectId, ref: 'Article' }
-}, {timestamps: true});
+// Getting an error with mongoose for unknown modifier for $pushAll
+// Apparently this problem goes away if you move to mongoose version 5. I couldn't do this because the Yarn
+// lockfile prevented me from upgrading mongoose. COuld do this at home at some point (refer to 
+// https://medium.com/@drdmason/how-i-resolve-conflicts-in-yarn-lock-7083331b5969
+// For now I'm using a workaround recommended here https://github.com/Automattic/mongoose/issues/5924
+}, {timestamps: true, usePushEach: true});
 
 // Requires population of author
 CommentSchema.methods.toJSONFor = function(user){
