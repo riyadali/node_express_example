@@ -64,6 +64,7 @@ router.post('/users', function(req, res, next){
   var user = new User();
 
   user.username = req.body.user.username;
+  user.bio = req.body.user.bio;
   user.email = req.body.user.email;
   user.setPassword(req.body.user.password);
 
