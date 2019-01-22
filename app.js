@@ -40,6 +40,10 @@ if(isProduction){
 require('./models/User');
 require('./models/Article');
 require('./models/Comment');
+
+require('./modelsCalendar/CalendarEntry');
+require('./modelsCalendar/ColorScheme');
+
 require('./config/passport');
 
 app.use(require('./routes'));
