@@ -10,6 +10,13 @@ var ColorSchemeSchema = new mongoose.Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, {timestamps: true});
 
+ColorSchemeSchema.index({
+  name: 1,
+  owner: 1,
+}, {
+  unique: true,
+});
+
 ColorSchemeSchema.plugin(uniqueValidator, {message: 'is already taken'});
 
 ColorSchemeSchema.pre('validate', function(next){
