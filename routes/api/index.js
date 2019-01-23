@@ -1,4 +1,6 @@
-var router = require('express').Router();
+var router = require('express').Router({
+  caseSensitive: true
+});
 
 router.use('/', require('./users'));
 router.use('/profiles', require('./profiles'));
