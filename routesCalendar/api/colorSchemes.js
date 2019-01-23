@@ -28,3 +28,5 @@ router.get('/:colorScheme', auth.optional, function(req, res, next) {
     return res.json({colorScheme: req.colorScheme.toJSONFor(user)});
   }).catch(next);
 });
+
+module.exports = router;
