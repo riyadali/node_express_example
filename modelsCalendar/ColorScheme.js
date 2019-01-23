@@ -10,14 +10,14 @@ var ColorSchemeSchema = new mongoose.Schema({
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, {timestamps: true});
 
-ColorSchemeSchema.index({
-  name: 1,
-  owner: 1
+ColorSchemeSchema.index({  
+  owner: 1,  
+  name: -1  // -1 causes the name to be a secondary field in sort order
 }, {
   unique: [true, "Color Scheme is already defined. Specify a different name"]
 });
 
-ColorSchemeSchema.plugin(uniqueValidator, {message: 'is already taken'});
+ColorSchemeSchema.plugin(uniqueValidator, {message: 'is already taken {PATH} {VALUE} {TYPE}'});
 
 ColorSchemeSchema.pre('validate', function(next){
   if(!this.slug)  {
