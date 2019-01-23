@@ -29,4 +29,19 @@ router.get('/:colorScheme', auth.optional, function(req, res, next) {
   }).catch(next);
 });
 
+router.post('/', auth.required, function(req, res, next) {
+  User.findById(req.payload.id).then(function(user){
+    if (!user) { return res.sendStatus(401); }
+
+    var colorScheme = new ColorScheme(req.body.colorScheme);
+
+    colorScheme.owner = user;
+
+    return colorScheme.save().then(function(){
+      console.log(colorScheme.owner);
+      return res.json({colorScheme: colorScheme.toJSONFor(user)});
+    });
+  }).catch(next);
+});
+
 module.exports = router;
