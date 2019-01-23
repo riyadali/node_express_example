@@ -17,11 +17,11 @@ ColorSchemeSchema.index({
   unique: true
 });
 
-getUniqueMessage = function() {
-  return 'is not unique'
+getUniqueMessage = function(path) {
+  return path+'is not unique'
 }
 
-ColorSchemeSchema.plugin(uniqueValidator, {message: getUniqueMessage()});
+ColorSchemeSchema.plugin(uniqueValidator, {message: getUniqueMessage({PATH})});
 
 ColorSchemeSchema.pre('validate', function(next){
   if(!this.slug)  {
