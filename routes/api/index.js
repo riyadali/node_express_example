@@ -7,7 +7,7 @@ router.use('/profiles', require('./profiles'));
 router.use('/articles', require('./articles'));
 router.use('/tags', require('./tags'));
 
-router.use('/colors', require('../../routesCalendar/api/colorSchemes'));
+router.use('/colorSchemes', require('../../routesCalendar/api/colorSchemes'));
 
 router.use(function(err, req, res, next){
   if(err.name === 'ValidationError'){
