@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 var slug = require('slug');
 
+getUniqueMessage = function() {
+}
 var ColorSchemeSchema = new mongoose.Schema({
   slug: {type: String, lowercase: true, unique: true},
   name: {type: String, required: [true, "can't be blank"]}, 
@@ -14,10 +16,10 @@ ColorSchemeSchema.index({
   owner: 1,  
   name: -1  // -1 causes the name to be a secondary field in sort order
 }, {
-  unique: [true, "Color Scheme is already defined. Specify a different name"]
+  unique: true
 });
 
-ColorSchemeSchema.plugin(uniqueValidator, {message: 'is already taken {PATH} {VALUE} {TYPE}'});
+ColorSchemeSchema.plugin(uniqueValidator, {message: this.getUniqueMessage()});
 
 ColorSchemeSchema.pre('validate', function(next){
   if(!this.slug)  {
@@ -30,6 +32,10 @@ ColorSchemeSchema.pre('validate', function(next){
 ColorSchemeSchema.methods.slugify = function() {
   this.slug = slug(this.name) + '-' + (Math.random() * Math.pow(36, 6) | 0).toString(36);
 };
+
+ColorSchemeSchema.methods.getUniqueMessage = function() {
+  return 'is not unique'
+}
 
 // Requires population of owner
 ColorSchemeSchema.methods.toJSONFor = function(user){
