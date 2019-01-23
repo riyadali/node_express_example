@@ -17,6 +17,10 @@ ColorSchemeSchema.index({
   unique: true
 });
 
+ColorSchemeSchema.methods.getUniqueMessage = function() {
+  return 'is not unique'
+}
+
 ColorSchemeSchema.plugin(uniqueValidator, {message: this.getUniqueMessage()});
 
 ColorSchemeSchema.pre('validate', function(next){
@@ -31,9 +35,6 @@ ColorSchemeSchema.methods.slugify = function() {
   this.slug = slug(this.name) + '-' + (Math.random() * Math.pow(36, 6) | 0).toString(36);
 };
 
-ColorSchemeSchema.methods.getUniqueMessage = function() {
-  return 'is not unique'
-}
 
 // Requires population of owner
 ColorSchemeSchema.methods.toJSONFor = function(user){
