@@ -12,7 +12,7 @@ var ColorSchemeSchema = new mongoose.Schema({
 
 ColorSchemeSchema.index({
   name: 1,
-  owner: 1,
+  owner: 1
 }, {
   unique: true,
 });
