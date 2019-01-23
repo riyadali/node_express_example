@@ -2,8 +2,6 @@ var mongoose = require('mongoose');
 var uniqueValidator = require('mongoose-unique-validator');
 var slug = require('slug');
 
-getUniqueMessage = function() {
-}
 var ColorSchemeSchema = new mongoose.Schema({
   slug: {type: String, lowercase: true, unique: true},
   name: {type: String, required: [true, "can't be blank"]}, 
