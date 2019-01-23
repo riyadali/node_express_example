@@ -4,9 +4,9 @@ var slug = require('slug');
 
 var ColorSchemeSchema = new mongoose.Schema({
   slug: {type: String, lowercase: true, unique: true},
-  name: String,
-  primary: String,
-  secondary: String,
+  name: {type: String, required: [true, "can't be blank"]}, 
+  primary: {type: String, required: [true, "can't be blank"]}, 
+  secondary: {type: String, required: [true, "can't be blank"]}, 
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, {timestamps: true});
 
