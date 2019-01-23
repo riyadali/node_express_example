@@ -14,7 +14,7 @@ ColorSchemeSchema.index({
   name: 1,
   owner: 1
 }, {
-  unique: true,
+  unique: [true, "Color Scheme is already defined. Specify a different name"]
 });
 
 ColorSchemeSchema.plugin(uniqueValidator, {message: 'is already taken'});
