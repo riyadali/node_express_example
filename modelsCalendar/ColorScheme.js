@@ -39,7 +39,7 @@ ColorSchemeSchema.methods.slugify = function() {
 // Requires population of owner
 // user has the person being "followed" or null
 ColorSchemeSchema.methods.toJSONFor = function(user){
-  if (owner) 
+  if (this.owner) 
     return {
       id: this._id,
       slug: this.slug,
