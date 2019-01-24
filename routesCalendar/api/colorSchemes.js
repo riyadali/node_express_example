@@ -50,28 +50,24 @@ router.post('/', auth.required, function(req, res, next) {
   }).catch(next);
 });
 
-// update article
-router.put('/:article', auth.required, function(req, res, next) {
+// update color scheme
+router.put('/:colorScheme', auth.required, function(req, res, next) {
   User.findById(req.payload.id).then(function(user){
-    if(req.article.author._id.toString() === req.payload.id.toString()){
-      if(typeof req.body.article.title !== 'undefined'){
-        req.article.title = req.body.article.title;
+    if(req.colorScheme.owner._id.toString() === req.payload.id.toString()){
+      if(typeof req.body.colorScheme.name !== 'undefined'){
+        req.colorScheme.name = req.body.colorScheme.name;
+      }
+      
+      if(typeof req.body.colorScheme.primary !== 'undefined'){
+        req.colorScheme.primary = req.body.colorScheme.primary;
+      }
+      
+      if(typeof req.body.colorScheme.secondary !== 'undefined'){
+        req.colorScheme.secondary = req.body.colorScheme.secondary;
       }
 
-      if(typeof req.body.article.description !== 'undefined'){
-        req.article.description = req.body.article.description;
-      }
-
-      if(typeof req.body.article.body !== 'undefined'){
-        req.article.body = req.body.article.body;
-      }
-
-      if(typeof req.body.article.tagList !== 'undefined'){
-        req.article.tagList = req.body.article.tagList
-      }
-
-      req.article.save().then(function(article){
-        return res.json({article: article.toJSONFor(user)});
+      req.colorScheme.save().then(function(colorScheme){
+        return res.json({colorScheme: colorScheme.toJSONFor(user)});
       }).catch(next);
     } else {
       return res.sendStatus(403);
