@@ -79,6 +79,66 @@ router.put('/:article', auth.required, function(req, res, next) {
   });
 });
 
+// get all colorSchemes
+router.get('/', auth.optional, function(req, res, next) {
+  var query = {};
+//  var limit = 20;
+//  var offset = 0;
+
+//  if(typeof req.query.limit !== 'undefined'){
+//    limit = req.query.limit;
+//  }
+
+//  if(typeof req.query.offset !== 'undefined'){
+//    offset = req.query.offset;
+//  }
+
+//  if( typeof req.query.tag !== 'undefined' ){
+//    query.tagList = {"$in" : [req.query.tag]};
+//  }
+
+  Promise.all([
+    req.query.owner ? User.findOne({username: req.query.owner}) : null,
+    req.query.favorited ? User.findOne({username: req.query.favorited}) : null
+  ]).then(function(results){
+    var owner = results[0];
+   // the following was copied from articles and not really needed here
+   // var favoriter = results[1];
+
+    if(owner){
+      query.owner = owner._id;
+    }
+
+ //   if(favoriter){
+ //     query._id = {$in: favoriter.favorites};
+ //   } else if(req.query.favorited){
+ //     query._id = {$in: []};
+ //  }
+
+    return Promise.all([
+      ColorScheme.find(query)
+ //       .limit(Number(limit))
+ //       .skip(Number(offset))
+ //       .sort({createdAt: 'desc'})
+        .populate('owner')
+        .exec(),
+      ColorScheme.count(query).exec(),
+      req.payload ? User.findById(req.payload.id) : null,
+    ]).then(function(results){
+      var colorSchemes = results[0];
+      var colorSchemesCount = results[1];
+      var user = results[2];
+
+      return res.json({
+        colorSchemes: colorSchemes.map(function(colorScheme){
+          return colorScheme.toJSONFor(user);
+        }),
+        colorSchemesCount: colorSchemesCount
+      });
+    });
+  }).catch(next);
+});
+
 // delete article
 router.delete('/:article', auth.required, function(req, res, next) {
   User.findById(req.payload.id).then(function(user){
