@@ -18,10 +18,10 @@ ColorSchemeSchema.index({
 });
 
 getUniqueMessage = function(path) {
-  return path+'is not unique'
+  return 'is already taken'
 }
 
-ColorSchemeSchema.plugin(uniqueValidator, {message: getUniqueMessage({PATH})});
+ColorSchemeSchema.plugin(uniqueValidator, {message: getUniqueMessage("test")});
 
 ColorSchemeSchema.pre('validate', function(next){
   if(!this.slug)  {
