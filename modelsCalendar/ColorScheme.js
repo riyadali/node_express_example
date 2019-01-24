@@ -46,6 +46,16 @@ ColorSchemeSchema.methods.toJSONFor = function(user){
     secondary: this.secondary,    
     owner: this.owner.toProfileJSONFor(user)
   };
+  
+ // When there is no owner for colorScheme
+ ColorSchemeSchema.methods.toJSON = function(){
+  return {
+    id: this._id,
+    slug: this.slug,
+    name: this.name,
+    primary: this.primary,
+    secondary: this.secondary
+  };
 };
 
 mongoose.model('ColorScheme', ColorSchemeSchema);
