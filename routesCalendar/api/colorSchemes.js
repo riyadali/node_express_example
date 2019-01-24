@@ -145,7 +145,7 @@ router.delete('/:colorScheme', auth.required, function(req, res, next) {
     if (!user) { return res.sendStatus(401); }
 
     if(req.colorScheme.owner._id.toString() === req.payload.id.toString()){
-      return req.article.remove().then(function(){
+      return req.colorScheme.remove().then(function(){
         return res.sendStatus(204);
       });
     } else {
