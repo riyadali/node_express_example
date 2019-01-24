@@ -139,12 +139,12 @@ router.get('/', auth.optional, function(req, res, next) {
   }).catch(next);
 });
 
-// delete article
-router.delete('/:article', auth.required, function(req, res, next) {
+// delete color scheme
+router.delete('/:colorScheme', auth.required, function(req, res, next) {
   User.findById(req.payload.id).then(function(user){
     if (!user) { return res.sendStatus(401); }
 
-    if(req.article.author._id.toString() === req.payload.id.toString()){
+    if(req.colorScheme.owner._id.toString() === req.payload.id.toString()){
       return req.article.remove().then(function(){
         return res.sendStatus(204);
       });
