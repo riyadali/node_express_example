@@ -46,6 +46,7 @@ ColorSchemeSchema.methods.toJSONFor = function(user){
     secondary: this.secondary,    
     owner: this.owner.toProfileJSONFor(user)
   };
+}
   
  // When there is no owner for colorScheme
  ColorSchemeSchema.methods.toJSON = function(){
