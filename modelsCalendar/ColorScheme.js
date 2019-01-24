@@ -39,25 +39,24 @@ ColorSchemeSchema.methods.slugify = function() {
 // Requires population of owner
 // user has the person being "followed" or null
 ColorSchemeSchema.methods.toJSONFor = function(user){
-  return {
-    id: this._id,
-    slug: this.slug,
-    name: this.name,
-    primary: this.primary,
-    secondary: this.secondary,    
-    owner: this.owner.toProfileJSONFor(user)
-  };
+  if (owner) 
+    return {
+      id: this._id,
+      slug: this.slug,
+      name: this.name,
+      primary: this.primary,
+      secondary: this.secondary,    
+      owner: this.owner.toProfileJSONFor(user)
+    };
+  else
+    return {
+      id: this._id,
+      slug: this.slug,
+      name: this.name,
+      primary: this.primary,
+      secondary: this.secondary
+    };
 }
   
- // When there is no owner for colorScheme
- ColorSchemeSchema.methods.toJSON = function(){
-  return {
-    id: this._id,
-    slug: this.slug,
-    name: this.name,
-    primary: this.primary,
-    secondary: this.secondary
-  };
-};
-
+ 
 mongoose.model('ColorScheme', ColorSchemeSchema);
