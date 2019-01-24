@@ -26,14 +26,8 @@ router.get('/:colorScheme', auth.optional, function(req, res, next) {
     req.payload ? User.findById(req.payload.id) : null,
     req.colorScheme.populate('owner').execPopulate()
   ]).then(function(results){
-    var user = results[0];
-    console.log("user is ..."+user.email);
-    console.log("color Scheme owner is ..."+req.colorScheme.owner.email);
-    
-    if (user) 
-      return res.json({colorScheme: req.colorScheme.toJSONFor(user)});
-    else
-      return res.json({colorScheme: req.colorScheme.toJSON()});
+    var user = results[0];    
+    return res.json({colorScheme: req.colorScheme.toJSONFor(user)});    
   }).catch(next);
 });
 
