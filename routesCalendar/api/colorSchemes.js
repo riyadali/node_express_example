@@ -21,6 +21,10 @@ router.param('colorScheme', function(req, res, next, slug) {
 // I think auth should be required for this one
 // you should only be allowed to access color schemes you own or
 // the "default" color schemes (with no owner field)
+// Also it seems as if the user field is always undefined. In principle this should be set to the logged in user
+// This code was modeled after the "Article" schema where the author field corresponds to "owner"
+// A check is done to display "following" in the author/owner field. This is set to true if if the user (currently logged id)
+// follows the "author" ... but it appears that the user is always null so following would never be set
 router.get('/:colorScheme', auth.optional, function(req, res, next) {
   Promise.all([
     req.payload ? User.findById(req.payload.id) : null,
