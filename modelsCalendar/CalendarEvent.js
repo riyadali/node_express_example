@@ -54,4 +54,4 @@ CalendarEventSchema.methods.toJSONFor = function(user){
 }
   
  
-mongoose.model('CalendarEventScheme', CalendarEventSchema);
+mongoose.model('CalendarEvent', CalendarEventSchema);
