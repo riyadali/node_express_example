@@ -4,8 +4,7 @@ var slug = require('slug');
 
 var CalendarEventSchema = new mongoose.Schema({
   slug: {type: String, lowercase: true, unique: true},
-  title: {type: String, required: [true, "can't be blank"]},
-  color: {type: String, required: [true, "can't be blank"]},
+  title: {type: String, required: [true, "can't be blank"]}, 
   start: {type: Date, required: [true, "can't be blank"]},
   end: Date,
   allDay: Boolean,
@@ -21,7 +20,8 @@ var CalendarEventSchema = new mongoose.Schema({
                       afterEnd: Boolean,
                       }   
               },   
-  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
+  owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  color: {type: mongoose.Schema.Types.ObjectId, ref: 'ColorScheme', required: [true, "can't be blank"]},
 }, {timestamps: true});
 
 
