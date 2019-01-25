@@ -101,8 +101,12 @@ router.get('/', auth.optional, function(req, res, next) {
    // the following was copied from articles and not really needed here
    // var favoriter = results[1];
 
-    if(owner){
-      query.owner = owner._id;
+    if(owner){      
+      query = {
+               '$or' : [{'owner': {'$exists' : false}},  // allow records with no ownere
+                      {'owner': owner._id}]
+              }
+     
     }
 
  //   if(favoriter){
