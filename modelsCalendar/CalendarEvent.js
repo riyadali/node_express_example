@@ -4,9 +4,23 @@ var slug = require('slug');
 
 var CalendarEventSchema = new mongoose.Schema({
   slug: {type: String, lowercase: true, unique: true},
-  name: {type: String, required: [true, "can't be blank"]}, 
-  primary: {type: String, required: [true, "can't be blank"]}, 
-  secondary: {type: String, required: [true, "can't be blank"]}, 
+  title: {type: String, required: [true, "can't be blank"]},
+  color: {type: String, required: [true, "can't be blank"]},
+  start: {type: Date, required: [true, "can't be blank"]},
+  end: Date,
+  allDay: Boolean,
+  description: String,
+  location: String,
+  address: String,
+  contact: String,
+  cost: String,
+  link: String,
+  draggable: Boolean,
+  resizable: { type: {
+                      beforeStart: Boolean,
+                      afterEnd: Boolean,
+                      }   
+              },   
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 }, {timestamps: true});
 
@@ -22,7 +36,7 @@ CalendarEventSchema.pre('validate', function(next){
 });
 
 CalendarEventSchema.methods.slugify = function() {
-  this.slug = slug(this.name) + '-' + (Math.random() * Math.pow(36, 6) | 0).toString(36);
+  this.slug = slug(this.title) + '-' + (Math.random() * Math.pow(36, 6) | 0).toString(36);
 };
 
 
