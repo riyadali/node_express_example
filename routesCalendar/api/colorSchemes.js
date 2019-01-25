@@ -103,7 +103,8 @@ router.get('/', auth.optional, function(req, res, next) {
 
     if(owner){      
       query = {
-               '$or' : [{'owner': {'$exists' : false}},  // allow records with no ownere
+               '$or' : [{'owner': {'$exists' : false}},  // allow records with no owner
+                        {'owner': null},
                       {'owner': owner._id}]
               }
      
