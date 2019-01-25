@@ -32,7 +32,7 @@ router.post('/', auth.required, function(req, res, next) {
   User.findById(req.payload.id).then(function(user){
     if (!user) { return res.sendStatus(401); }
 
-    var calendarEvent = new calendarEvent(req.body.calendarEvent);
+    var calendarEvent = new CalendarEvent(req.body.calendarEvent);
 
     calendarEvent.owner = user;
 
