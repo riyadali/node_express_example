@@ -49,14 +49,14 @@ CalendarEventSchema.methods.slugify = function() {
 
 // Requires population of owner
 // user has the person being "followed" or null
+// needs work to return all fields
 CalendarEventSchema.methods.toJSONFor = function(user){ 
     return {
       id: this._id,
       slug: this.slug,
-      name: this.name,
-      primary: this.primary,
-      secondary: this.secondary,    
-      owner: this.owner.toProfileJSONFor(user)
+      title: this.title,       
+      owner: this.owner.toProfileJSONFor(user),
+      color: this.color.toJSONFor(user)      
     };  
 }
   
