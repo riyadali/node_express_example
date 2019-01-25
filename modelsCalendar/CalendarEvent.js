@@ -31,8 +31,15 @@ CalendarEventSchema.pre('validate', function(next){
   if(!this.slug)  {
     this.slugify();
   }
-
-  next();
+  
+  if (this.endDate) {
+    if (this.start > this.end) {
+        next(new Error('End Date must be greater than Start Date'));
+    } else {
+        next();
+    }
+  }
+  
 });
 
 CalendarEventSchema.methods.slugify = function() {
