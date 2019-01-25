@@ -94,7 +94,7 @@ router.get('/', auth.optional, function(req, res, next) {
 //  }
 
   Promise.all([
-    req.query.owner ? User.findOne({username: req.query.owner}) : null,
+    req.query.owner ? User.findById(req.query.owner) : null,
     req.query.favorited ? User.findOne({username: req.query.favorited}) : null
   ]).then(function(results){
     var owner = results[0];
