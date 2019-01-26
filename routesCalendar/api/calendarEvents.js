@@ -83,6 +83,7 @@ router.put('/:calendarEvent', auth.required, function(req, res, next) {
         req.calendarEvent.resizable = req.body.calendarEvent.resizable;
       } 
       if(typeof req.body.calendarEvent.color !== 'undefined'){
+         return res.sendStatus(403);
         req.calendarEvent.color = req.body.calendarEvent.color._id;
       } 
       
