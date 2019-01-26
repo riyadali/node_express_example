@@ -89,7 +89,13 @@ CalendarEventSchema.methods.toJSONFor = function(user){
       results.draggable = this.draggable;
     } 
     if(typeof this.resizable !== 'undefined'){
-      results.resizable = this.resizable;
+      results.resizable = {};
+      if (typeof this.resizable.beforeStart !== 'undefined') {
+        results.resizable.beforeStart = this.resizable.beforeStart;
+      }
+      if (typeof this.resizable.afterEnd !== 'undefined') {
+        results.resizable.afterEnd = this.resizable.afterEnd;
+      }  
     } 
     
     return results;
