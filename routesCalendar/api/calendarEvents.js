@@ -86,11 +86,11 @@ router.put('/:calendarEvent', auth.required, function(req, res, next) {
         req.calendarEvent.color = req.body.calendarEvent.color;
         // imbed the updated color scheme into the calendar event 
         req.calendarEvent.populate('color').execPopulate();
+        req.calendarEvent.owner=user;
       } 
       
 
       req.calendarEvent.save().then(function(calendarEvent){ 
-        calendarEvent.owner=user;
         return res.json({calendarEvent: calendarEvent.toJSONFor(user)});
       }).catch(next);
     } else {
