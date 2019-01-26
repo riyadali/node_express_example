@@ -49,9 +49,42 @@ router.post('/', auth.required, function(req, res, next) {
 router.put('/:calendarEvent', auth.required, function(req, res, next) {
   User.findById(req.payload.id).then(function(user){
     if(req.calendarEvent.owner._id.toString() === req.payload.id.toString()){
-      if(typeof req.body.calendarEvent.name !== 'undefined'){
-        req.calendarEvent.name = req.body.calendarEvent.name;
-      }      
+      if(typeof req.body.calendarEvent.title !== 'undefined'){
+        req.calendarEvent.title = req.body.calendarEvent.title;
+      } 
+      if(typeof req.body.calendarEvent.description !== 'undefined'){
+        req.calendarEvent.description = req.body.calendarEvent.description;
+      } 
+      if(typeof req.body.calendarEvent.start !== 'undefined'){
+        req.calendarEvent.start = req.body.calendarEvent.start;
+      } 
+      if(typeof req.body.calendarEvent.end !== 'undefined'){
+        req.calendarEvent.end = req.body.calendarEvent.end;
+      } 
+      if(typeof req.body.calendarEvent.location !== 'undefined'){
+        req.calendarEvent.location = req.body.calendarEvent.location;
+      } 
+      if(typeof req.body.calendarEvent.address !== 'undefined'){
+        req.calendarEvent.address = req.body.calendarEvent.address;
+      } 
+      if(typeof req.body.calendarEvent.cost !== 'undefined'){
+        req.calendarEvent.cost = req.body.calendarEvent.cost;
+      }
+      if(typeof req.body.calendarEvent.contact !== 'undefined'){
+        req.calendarEvent.contact = req.body.calendarEvent.contact;
+      }
+      if(typeof req.body.calendarEvent.link !== 'undefined'){
+        req.calendarEvent.link = req.body.calendarEvent.link;
+      }
+      if(typeof req.body.calendarEvent.draggable !== 'undefined'){
+        req.calendarEvent.draggable = req.body.calendarEvent.draggable;
+      } 
+      if(typeof req.body.calendarEvent.resizable !== 'undefined'){
+        req.calendarEvent.resizable = req.body.calendarEvent.resizable;
+      } 
+      if(typeof req.body.calendarEvent.color !== 'undefined'){
+        req.calendarEvent.color = req.body.calendarEvent.color.id;
+      } 
       
 
       req.calendarEvent.save().then(function(calendarEvent){        
