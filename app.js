@@ -41,7 +41,7 @@ require('./models/User');
 require('./models/Article');
 require('./models/Comment');
 
-require('./modelsCalendar/CalendarEntry');
+require('./modelsCalendar/CalendarEvent');
 require('./modelsCalendar/ColorScheme');
 
 require('./config/passport');

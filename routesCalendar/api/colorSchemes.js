@@ -94,15 +94,19 @@ router.get('/', auth.optional, function(req, res, next) {
 //  }
 
   Promise.all([
-    req.query.owner ? User.findOne({username: req.query.owner}) : null,
+    req.query.owner ? User.findById(req.query.owner) : null,
     req.query.favorited ? User.findOne({username: req.query.favorited}) : null
   ]).then(function(results){
     var owner = results[0];
    // the following was copied from articles and not really needed here
    // var favoriter = results[1];
 
-    if(owner){
-      query.owner = owner._id;
+    if(owner){      
+      query = {
+               '$or' : [ {'owner': {'$exists' : false}},  // allow records with no owner                      
+                      {'owner': owner._id}]
+              }
+     
     }
 
  //   if(favoriter){
