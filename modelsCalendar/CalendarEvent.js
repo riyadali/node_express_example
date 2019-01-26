@@ -53,13 +53,46 @@ CalendarEventSchema.methods.slugify = function() {
 // user has the person being "followed" or null
 // needs work to return all fields
 CalendarEventSchema.methods.toJSONFor = function(user){ 
-    return {
+   results = {
       id: this._id,
       slug: this.slug,
       title: this.title,       
       owner: this.owner.toProfileJSONFor(user),
       color: this.color.toJSONFor(user)      
-    };  
+    }; 
+    
+    if(typeof this.description !== 'undefined'){
+      results.description = this.description;
+    } 
+    if(typeof this.start !== 'undefined'){
+      results.start = this.start;
+    } 
+    if(typeof this.end !== 'undefined'){
+      results.end = this.end;
+    } 
+    if(typeof this.location !== 'undefined'){
+      results.location = this.location;
+    } 
+    if(typeof this.address !== 'undefined'){
+      results.address = this.address;
+    } 
+    if(typeof this.cost !== 'undefined'){
+      results.cost = this.cost;
+    }
+    if(typeof this.contact !== 'undefined'){
+      results.contact = this.contact;
+    }
+    if(typeof this.link !== 'undefined'){
+      results.link = this.link;
+    }
+    if(typeof this.draggable !== 'undefined'){
+      results.draggable = this.draggable;
+    } 
+    if(typeof this.resizable !== 'undefined'){
+      results.resizable = this.resizable;
+    } 
+    
+    return results;
 }
   
  
