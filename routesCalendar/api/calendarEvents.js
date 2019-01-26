@@ -48,7 +48,13 @@ router.post('/', auth.required, function(req, res, next) {
     var calendarEvent = new CalendarEvent(req.body.calendarEvent);
 
     calendarEvent.owner = user;
-   // calendarEvent.populate('color').execPopulate();
+    calendarEvent.populate({ 
+                            path: 'color',
+                            populate: {
+                                        path: 'owner',
+                                        model: 'User'   
+                                      } 
+                          }).execPopulate();
 
     return calendarEvent.save().then(function(){
       console.log(calendarEvent.owner);
