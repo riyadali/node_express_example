@@ -8,7 +8,13 @@ var auth = require('../../routes/auth');
 router.param('calendarEvent', function(req, res, next, slug) {
   CalendarEvent.findOne({ slug: slug})
     .populate('owner')
-    .populate('color')
+    .populate({ 
+                path: 'color',
+                populate: {
+                            path: 'owner',
+                            model: 'User'   
+                          } 
+    })
     .then(function (calendarEvent) {
       if (!calendarEvent) { return res.sendStatus(404); }
 
@@ -22,7 +28,13 @@ router.param('calendarEvent', function(req, res, next, slug) {
 router.get('/:calendarEvent', auth.optional, function(req, res, next) {
   Promise.all([
     req.payload ? User.findById(req.payload.id) : null,
-    req.calendarEvent.populate('owner').populate('color').execPopulate()
+    req.calendarEvent.populate('owner').populate({ 
+                                                  path: 'color',
+                                                  populate: {
+                                                              path: 'owner',
+                                                              model: 'User'
+                                                            } 
+                                                }).execPopulate()
   ]).then(function(results){
     var user = results[0];    
     return res.json({calendarEvent: req.calendarEvent.toJSONFor(user)});    
@@ -36,7 +48,7 @@ router.post('/', auth.required, function(req, res, next) {
     var calendarEvent = new CalendarEvent(req.body.calendarEvent);
 
     calendarEvent.owner = user;
-    calendarEvent.populate('color').execPopulate();
+   // calendarEvent.populate('color').execPopulate();
 
     return calendarEvent.save().then(function(){
       console.log(calendarEvent.owner);
@@ -153,7 +165,13 @@ router.get('/', auth.optional, function(req, res, next) {
  //       .skip(Number(offset))
  //       .sort({createdAt: 'desc'})
         .populate('owner')
-        .populate('color')
+        .populate({ 
+                    path: 'color',
+                    populate: {
+                                path: 'owner',
+                                model: 'User'
+                              } 
+                  })
         .exec(),
       CalendarEvent.count(query).exec(),
       req.payload ? User.findById(req.payload.id) : null,
