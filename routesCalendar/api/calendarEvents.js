@@ -89,7 +89,8 @@ router.put('/:calendarEvent', auth.required, function(req, res, next) {
       } 
       
 
-      req.calendarEvent.save().then(function(calendarEvent){        
+      req.calendarEvent.save().then(function(calendarEvent){ 
+        calendarEvent.owner=user;
         return res.json({calendarEvent: calendarEvent.toJSONFor(user)});
       }).catch(next);
     } else {
