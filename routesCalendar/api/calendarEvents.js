@@ -85,10 +85,16 @@ router.put('/:calendarEvent', auth.required, function(req, res, next) {
       if(typeof req.body.calendarEvent.color !== 'undefined'){        
         req.calendarEvent.color = req.body.calendarEvent.color;
         // imbed the updated color scheme into the calendar event 
-        req.calendarEvent.populate('color').execPopulate();
-        if (typeof req.calendarEvent.color !== 'undefined') {
-          req.calendarEvent.color.populate('owner').execPopulate();
-        }
+        req.calendarEvent.populate({ 
+                                    path: 'color',
+                                    populate: {
+                                                path: 'owner',
+                                                model: 'User'
+                                              } 
+                                    }).execPopulate();
+        //   if (typeof req.calendarEvent.color !== 'undefined') {
+        //     req.calendarEvent.color.populate('owner').execPopulate();
+         //   }
       } 
       
 
