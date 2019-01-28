@@ -1,9 +1,18 @@
 var router = require('express').Router();
 
+/* -- if case sensitive routine is needed do the following  
+var router = require('express').Router({
+  caseSensitive: true
+});
+*/
+
 router.use('/', require('./users'));
 router.use('/profiles', require('./profiles'));
 router.use('/articles', require('./articles'));
 router.use('/tags', require('./tags'));
+
+router.use('/colorSchemes', require('../../routesCalendar/api/colorSchemes'));
+router.use('/calEvents', require('../../routesCalendar/api/calendarEvents'));
 
 router.use(function(err, req, res, next){
   if(err.name === 'ValidationError'){
