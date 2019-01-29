@@ -42,6 +42,7 @@ UserSchema.methods.generateJWT = function() {
 
 UserSchema.methods.toAuthJSON = function(){
   return {
+    id: this._id,
     username: this.username,
     email: this.email,
     token: this.generateJWT(),
@@ -52,6 +53,7 @@ UserSchema.methods.toAuthJSON = function(){
 
 UserSchema.methods.toProfileJSONFor = function(user){
   return {
+    id: this._id,
     username: this.username,
     bio: this.bio,
     image: this.image || 'https://static.productionready.io/images/smiley-cyrus.jpg',
