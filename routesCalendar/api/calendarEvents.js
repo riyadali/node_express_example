@@ -44,7 +44,10 @@ router.get('/:calendarEvent', auth.optional, function(req, res, next) {
 router.post('/', auth.required, function(req, res, next) {
   User.findById(req.payload.id).then(function(user){
     if (!user) { return res.sendStatus(401); }
-
+    // a colorscheme is passed in for the color
+    // you actually only need to save the id for the color scheme in the record
+    if (req.body.calendarEvent.color)
+      req.body.calendarEvent.color=req.body.calendarEvent.color.id;
     var calendarEvent = new CalendarEvent(req.body.calendarEvent);
 
     calendarEvent.owner = user;
@@ -100,8 +103,11 @@ router.put('/:calendarEvent', auth.required, function(req, res, next) {
       if(typeof req.body.calendarEvent.resizable !== 'undefined'){
         req.calendarEvent.resizable = req.body.calendarEvent.resizable;
       } 
-      if(typeof req.body.calendarEvent.color !== 'undefined'){        
-        req.calendarEvent.color = req.body.calendarEvent.color;
+      
+      if(typeof req.body.calendarEvent.color !== 'undefined'){ 
+        // a colorscheme is passed in for the color
+        // you actually only need to save the id for the color scheme in the record
+        req.calendarEvent.color = req.body.calendarEvent.color.id;
         // imbed the updated color scheme into the calendar event 
         req.calendarEvent.populate({ 
                                     path: 'color',
