@@ -1,6 +1,7 @@
 var router = require('express').Router();
 var mongoose = require('mongoose');
 var CalendarEvent = mongoose.model('CalendarEvent');
+var ColorScheme = mongoose.model('ColorScheme');
 var User = mongoose.model('User');
 var auth = require('../../routes/auth');
 
@@ -44,26 +45,43 @@ router.get('/:calendarEvent', auth.optional, function(req, res, next) {
 router.post('/', auth.required, function(req, res, next) {
   User.findById(req.payload.id).then(function(user){
     if (!user) { return res.sendStatus(401); }
-    // a colorscheme is passed in for the color
-    // you actually only need to save the id for the color scheme in the record
-    if (req.body.calendarEvent.color)
-      req.body.calendarEvent.color=req.body.calendarEvent.color.id;
-    var calendarEvent = new CalendarEvent(req.body.calendarEvent);
+    // request is bad if color scheme is not set 
+    if (!req.body.calendarEvent || !req.body.calendarEvent.color || !req.body.calendarEvent.color.id ) { return res.sendStatus(400); }
+    
+    ColorScheme.findById(req.body.calendarEvent.color.id).then(function(colorScheme){
+      if (!colorScheme) { return res.sendStatus(404); }
+      
+      colorScheme.populate('owner').execPopulate();
+      
+      // a colorscheme is passed in for the color
+      // you actually only need to save the id for the color scheme in the record
+      if (req.body.calendarEvent.color)
+        req.body.calendarEvent.color=req.body.calendarEvent.color.id;
+      var calendarEvent = new CalendarEvent(req.body.calendarEvent);
 
-    calendarEvent.owner = user;
-    calendarEvent.populate({ 
+      calendarEvent.owner = user;     
+      
+      /* was having intermittent issues on post -- the post worked but for some reason it appears that the 
+         color scheme at times was not "treated" like a colorScheme object because this.color.toJSONFor was not
+         defined for it.  So instead, I'm explicitly finding the relevant colorScheme object and ensure that it's owner field is
+         also deeply populated.  The code below that deeply populated the colorScheme is replaced
+         
+         calendarEvent.populate({ 
                             path: 'color',
                             populate: {
                                         path: 'owner',
                                         model: 'User'   
                                       } 
                           }).execPopulate();
+      */
 
-    return calendarEvent.save().then(function(){
-      console.log(calendarEvent.owner);
-      return res.json({calendarEvent: calendarEvent.toJSONFor(user)});
-    });
-  }).catch(next);
+      return calendarEvent.save().then(function(){
+        //console.log(calendarEvent.owner);
+        calendarEvent.color=colorScheme; // ensure color scheme set to fully populated colorScheme converting to JSON
+        return res.json({calendarEvent: calendarEvent.toJSONFor(user)});
+      }); // end return calendarEvent.save
+    }).catch(next); // end then ColorScheme.findById    
+  }).catch(next); // end then User.findById
 });
 
 // update calendar event
