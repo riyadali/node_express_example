@@ -77,7 +77,7 @@ router.post('/', auth.required, function(req, res, next) {
 
       return calendarEvent.save().then(function(){
         //console.log(calendarEvent.owner);
-        calendarEvent.color=colorScheme; // ensure color scheme set to fully populated colorScheme converting to JSON
+        calendarEvent.color=colorScheme; // ensure color scheme set to fully populated colorScheme before converting to JSON
         return res.json({calendarEvent: calendarEvent.toJSONFor(user)});
       }); // end return calendarEvent.save
     }).catch(next); // end then ColorScheme.findById    
