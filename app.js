@@ -31,13 +31,12 @@ if (!isProduction) {
 }
 
 if(isProduction){
-  mongoose.connect("mongodb+srv://muser:mpass1@loc8r.ywhhs.mongodb.net/temp?retryWrites=true",{ useNewUrlParser: true });    
+  mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
 
   mongoose.connection.on('error', (err) => {
     console.error(`Mongoose connection error: ${err}`);
     process.exit(1);
   });
-  //mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
 } else {
   mongoose.connect('mongodb://localhost/conduit', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
   mongoose.set('debug', true);
