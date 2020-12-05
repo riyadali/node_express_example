@@ -31,7 +31,7 @@ if (!isProduction) {
 }
 
 if(isProduction){
-  mongoose.connect("mongodb+srv://muser:mpass1@loc8r.ywhhs.mongodb.net/temp?retryWrites=true",{ useNewUrlParser: true });    
+ // mongoose.connect("mongodb+srv://muser:mpass1@loc8r.ywhhs.mongodb.net/temp?retryWrites=true",{ useNewUrlParser: true });    
 
   mongoose.connection.on('error', (err) => {
     console.error(`Mongoose connection error: ${err}`);
